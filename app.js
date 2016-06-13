@@ -40,6 +40,25 @@ var conversation = watson.conversation({
   version: 'v1-experimental'
 });
 
+
+var Connection = require('tedious').Connection;
+var config = {
+    userName: 'bb8c6a68ae7ec8',
+    password: 'ef13bbf5',
+    server: 'us-cdbr-iron-east-04.cleardb.net',
+    // If you are on Microsoft Azure, you need this:
+    options: {encrypt: true, database: 'AdventureWorks'}
+};
+var connection = new Connection(config);
+connection.on('connect', function(err) {
+// If no error, then good to proceed.
+    console.log("Connected");
+});
+
+var Request = require('tedious').Request;
+var TYPES = require('tedious').TYPES;
+
+
 // Endpoint to be call from the client side
 app.post('/api/message', function(req, res) {
   var payload = {
@@ -64,6 +83,23 @@ app.post('/api/message', function(req, res) {
   });
 });
 
+//Accept the intent of the message and the confidence, and return the text reponse and url.
+//From the sql database.
+function getMessage(name) {
+    request = new Request("SELECT response, url FROM intent WHERE name = "+name, function(err) {
+      if (err) {console.log(err);}
+    });
+    var response = "";
+    var url = "";
+    request.on('row', function(columns) {
+
+        console.log(columns.name.value);
+        console.log(columns.url.value);
+
+    });
+    //connection.execSql(request);
+}
+
 /**
  * Updates the response text using the intent confidence
  * @param  {Object} response The response from the Conversation service
@@ -72,14 +108,14 @@ app.post('/api/message', function(req, res) {
 
 function updateMessage(response) {
   var responseText = null;
-  
+
 
   if (response.intents && response.intents[0]) {
     var intent = response.intents[0];
     if (!response.output) {
       response.output = {};
     }
-
+    getMessage(response.intents[0]);
     // Depending on the confidence of the response the app can return different messages.
     // The confidence will vary depending on how well the system is trained. The service will always try to assign
     // a class/intent to the input. If the confidence is low, then it suggests the service is unsure of the

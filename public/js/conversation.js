@@ -147,6 +147,7 @@ var ConversationPanel = (function() {
   // Constructs new DOM element from a message payload
   function buildMessageDomElement(newPayload, isUser) {
     var dataObj = isUser ? newPayload.input : newPayload.output;
+    //If it is not a user, choose newPayload.output.
 
     var messageJson = {
       // <div class='segments'>
