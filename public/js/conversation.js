@@ -1,3 +1,4 @@
+/*eslint-env node */
 // The ConversationPanel module is designed to handle
 // all display and behaviors of the conversation column of the app.
 /* eslint no-unused-vars: "off" */
@@ -74,6 +75,8 @@ var ConversationPanel = (function() {
     }
 
     input.addEventListener('input', function() {
+      //alert("you say"+this.value);
+      //alert(process.env.CONVERSATION_USERNAME);
       if (this.value === '') {
         this.classList.remove('underline');
         this.setAttribute('style', 'width:' + '100%');

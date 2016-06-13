@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+/*eslint-env node */
 'use strict';
 
 require('dotenv').config({silent: true});
@@ -29,10 +30,12 @@ app.use(express.static('./public')); // load UI from public folder
 app.use(bodyParser.json());
 
 // Create the service wrapper
+
+
 var conversation = watson.conversation({
   url: 'https://gateway.watsonplatform.net/conversation-experimental/api',
-  username: process.env.CONVERSATION_USERNAME || 'a004cb5b-927d-4db3-9eb3-076d2406b80c',
-  password: process.env.CONVERSATION_PASSWORD || 'bFNNz4ARhUq2',
+  username: process.env.CONVERSATION_USERNAME || '961ad1db-b809-4679-9147-8856c05d5d0b',
+  password: process.env.CONVERSATION_PASSWORD || '4evjnYyPNUWz',
   version_date: '2016-05-19',
   version: 'v1-experimental'
 });
@@ -40,7 +43,7 @@ var conversation = watson.conversation({
 // Endpoint to be call from the client side
 app.post('/api/message', function(req, res) {
   var payload = {
-    workspace_id: process.env.WORKSPACE_ID || 'ba9e00fa-cb68-4a1d-bded-c40f25c0bcf5',
+    workspace_id: process.env.WORKSPACE_ID || 'acd2fad4-b073-4a6f-9d92-4786c4ded80a',
     context: {}
   };
   if (req.body) {
@@ -69,7 +72,7 @@ app.post('/api/message', function(req, res) {
 
 function updateMessage(response) {
   var responseText = null;
-
+  
 
   if (response.intents && response.intents[0]) {
     var intent = response.intents[0];
